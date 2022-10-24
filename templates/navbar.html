@@ -1,0 +1,9 @@
+{% load static %}
+<header>
+    <a href="{% url 'home' %}" class="homelink">
+        <img src="{% static 'images/dbwlogo.svg' %}" alt="" class="corner-logo">
+    </a>
+    <h1 id="welcomeMessage">Welcome to the Data Based Base</h1>
+    <a href="{% url 'design' %}">About This Website Design</a>
+    <a href="{% url 'database' %}">About The Database</a>
+</header>

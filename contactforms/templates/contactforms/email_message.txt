@@ -1,0 +1,5 @@
+Hello, {{fname|safe}}.
+Here is a copy of your message:
+{{body|safe}}
+
+Thank you.

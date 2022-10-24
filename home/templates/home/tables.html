@@ -1,0 +1,11 @@
+<p class="filter-heading">Initial Table:</p>
+<div id="tableOptionsDiv" class="filterList" data-filter="table">
+    {% for table in tables %}
+    <section class="filter-option">
+        <input type="radio" id="{{table}}" name="tableSelection" value="{{table}}" {% if forloop.first %}checked{% endif %} data-table-number="{{forloop.counter0}}">
+        <label for="{{table}}">{{table|truncatechars_html:12}}</label>
+    </section>
+    {% endfor %}
+</div>
+<p class="data-filter" data-filter="table">[collapsed]</p>
+<button type="button" id="tableBtn" class="nonbarbtn">Select Table</button>

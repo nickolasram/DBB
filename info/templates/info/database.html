@@ -1,0 +1,54 @@
+{% extends "main.html" %}
+{% load static %}
+{% block content %}
+<main class="info-column">
+    <h1>The MySQL Database:</h1>
+    <article class="database-article">
+        <h2>Brief notes:</h2>
+        <p>At the moment, there are two schemas in the database-- one for a fictional bookstore
+            and one containing ratings for music. The music rating schema was written entirely from a script.
+            The bookstore schema was first laid out as an ERD and then a script was generated from that.</p>
+        <p>I seem to have deleted or misplaced the file for that ERD, but I have this screenshot of it still:</p>
+        <a href="{% static 'images/oberd.png' %}" data-fancybox="gallery" class="info-image-wrapper">
+            <img src="{% static 'images/oberd.png' %}" class="db-diagram" alt="">
+        </a>
+        <em class="credit-attr">Credit to the Fancybox plugin for added functionality.</em>
+        <p>More schemas, more data, and more example queries are planned to be added in the future.</p>
+    </article>
+</main>
+<aside class="info-aside info-aside_db">
+    <ul class="file-hub">
+        <h3>You can generate a copy of the database using these files:</h3>
+        <li>
+            <a href="{% static 'mysql/musicSchemaAndTables.sql' %}" download>Construct the music database</a>
+        </li>
+        <li>
+            <a href="{% static 'mysql/musicData.sql' %}" download>Populate the music data</a>
+        </li>
+        <li>
+            <a href="{% static 'mysql/oscarbooksschema.sql' %}" download>Construct the bookstore database</a>
+        </li>
+        <li>
+            <a href="{% static 'mysql/oscarbooksdata.sql' %}" download>Populate the bookstore data</a>
+        </li>
+        <h3>Here are some of my example queries saved as a scripts:</h3>
+        <li>
+            <a href="{% static 'mysql/bookstore-ex-script.sql' %}">Overview of how well various items sell</a>
+        </li>
+        <li>
+            <a href="{% static 'mysql/total-sold.sql' %}">Return products, amount sold, individual revenue, and total revenue</a>
+        </li>
+        <li>
+            <a href="{% static 'mysql/purchase-breakdown.sql' %}">Breakdown of expenses including money per vendor, biggest purchases, average purchase
+                total purchases, and % of purchases for each vendor</a>
+        </li>
+        <li>
+            <a href="{% static 'mysql/avg-daily-revenue-analysis.sql' %}">Average daily revenue analysis</a>
+        </li>
+        <li>
+            <a href="{% static 'mysql/pref-customers.sql' %}">Find "preferred" customers that spent over a certain amount on purchases</a>
+        </li>
+    </ul>
+</aside>
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js"></script>
+{% endblock content %}

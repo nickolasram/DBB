@@ -1,0 +1,4 @@
+{{fname|safe}} {% if lname %}{{lname|safe}}{% endif %}
+{% if company%}{{company|safe}}{% endif %}
+{{email|safe}}
+{{body|safe}}

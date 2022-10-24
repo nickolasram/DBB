@@ -1,0 +1,20 @@
+<p class="filter-heading">Potential Joins:</p>
+<div class="filterList" data-filter="join">
+    {% if table == column.REFERENCED_TABLE_NAME %}
+    {% for item in related_columns %}
+    <section class="joinfilter">
+        <input type="checkbox" id="{{item.TABLE_NAME}}joins" name="{{item.TABLE_NAME}}joins" class="joinOption" data-join="Join {{item.TABLE_NAME}} using({{item.COLUMN_NAME}})">
+        <label for="{{item.TABLE_NAME}}joins">Join with {{item.TABLE_NAME}} using {{item.COLUMN_NAME}}</label>
+    </section>
+    {% endfor %}
+    {% else %}
+        {% for item in related_columns %}
+            <section class="joinfilter">
+                <input type="checkbox" id="{{item.COLUMN_NAME}}joins" name="{{item.COLUMN_NAME}}joins" class="joinOption" data-join="Join {{item.REFERENCED_TABLE_NAME}} using({{item.COLUMN_NAME}})">
+                <label for="{{item.COLUMN_NAME}}joins">Join with {{item.REFERENCED_TABLE_NAME|truncatechars_html:12}} using {{item.COLUMN_NAME|truncatechars_html:12}}</label>
+            </section>
+            {% endfor %}
+    {% endif %}
+</div>
+<p class="data-filter" data-filter="join">[collapsed]</p>
+<button type="button" id="joinBtn" class="nonbarbtn">Select Joins</button>

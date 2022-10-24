@@ -1,0 +1,160 @@
+{% extends "main.html" %}
+{% load static %}
+{% block content %}
+<main class="info-column">
+            <h1>The DBB Design and Architecture:</h1>
+            <p class="hero-instructions">Hover over the icons below for more information!</p>
+            <section class="design-hero">
+                <div class="hero-division hero-division_nginx">
+                    <p class="hero-division-contents">Nginx serves as a reverse proxy</p>
+                </div>
+                <div class="hero-division hero-division_s3bucket">
+                    <p class="hero-division-contents">Static files are stored in an Amazon S3 Bucket</p>
+                </div>
+                <div class="hero-division hero-division_gunicorn">
+                    <p class="hero-division-contents hdc-gunicorn">Gunicorn is employed to help distribute the load</p>
+                </div>
+                <div class="hero-division hero-division_django">
+                    <p class="hero-division-contents hdc-django">Django works with jQuery for a smoother experience</p>
+                </div>
+                <div class="hero-division hero-division_rds">
+                    <p class="hero-division-contents">The MySQL database lives on Amazon RDS</p>
+                </div>
+                <div class="hero-division hero-division_python">
+                    <p class="hero-division-contents hdc-python">The site is built with Django, a Python framework</p>
+                </div>
+                <div class="hero-division hero-division_docker">
+                    <p class="hero-division-contents">Tools like Redis and Nginx run in docker containers</p>
+                </div>
+                <div class="hero-division hero-division_linux">
+                    <p class="hero-division-contents">The site runs on an AWS Linux server</p>
+                </div>
+                <div class="hero-division hero-division_redis">
+                    <p class="hero-division-contents hdc-redis">Redis to broker for Celery and cache memory</p>
+                </div>
+            </section>
+            <article class="design-article">
+                <section class="design-article_body">
+                    <h2 class="dab_heading"  id="overview">Overview</h2>
+                    <p>I should start by stating the Data Based Base is a portfolio project. The aim
+                        was to provide users with a way to view the data in my MySQL database either by
+                        using a GUI or by running their own queries. I had two main design goals heading into this project.
+                        Firstly, I wanted a smooth user experience. I didn't want the main page to have to reload between queries.
+                        Secondly, I wanted a completely dynamic GUI. None of the options for columns, tables, schemas, etc. were
+                        hard-coded. It should be able to generate these options based on the current state of the database.
+                        I want the site to continue to reflect the data stored in the database as I continue to expand the database
+                        without having to update the site along with it.</p>
+                    <h2 class="dab_heading" id="process">Process</h2>
+                    <h3>Building a concept</h3>
+                    <p>I started with a pen and paper. Defining a core concept, listing out feature ideas, and outlining core
+                        design principles like those listed above.</p>
+                    <h3>Designing a UI</h3>
+                    <p>With a concept defined, my next step was designing a basic UI. After some quick sketches, I made my initial designs
+                        using Figma. While my initial design was pretty close to the final result, as you can tell, the design continued
+                        to evolve as I added more features.</p>
+                    <h3>Proof of concept</h3>
+                    <p>Before proceeding, I had to prove to myself this was something within my current capabilities. I wanted this to be
+                        a relatively quick project, no longer than a few weeks. If I couldn't make it work without a ton of time spent on
+                        research, I was willing to move onto a few other projects I had ideas for.
+                        <a target="_blank" href="https://www.youtube.com/watch?v=igSKrkI2Gyk&ab_channel=NickolasRamirez">This video</a>
+                        is of my first prototype. While it may look close to finished, don't let the GUI fool you. A lot of it was
+                        non-functional at that point. However, once I knew I could grab all the joins to and from a given table
+                        and run queries from both the GUI and text field, I knew I could implement everything else <i>relatively</i> quickly.
+                        (In the end, it took a few weeks. I can't remember if it was three or four.)
+                    </p>
+                    <h3>Further Feature Development</h3>
+                    <p>The next step was to finish developing the rest of the sites front-end functions such as retrieving the columns from a
+                        given table or join, allow the user to change the schema their using, or search for keywords in a query result. Then it
+                        was time to focus on back-end functions such as temporarily storing query results in cache memory and running periodic tasks.
+                        A lot of the back-end development at this point was done in tandem with step...</p>
+                    <h3>Implementing on AWS</h3>
+                    <p>Configuring a server and getting this site to run on AWS was not always the most straight forward task. As I developed features
+                        for this website, I'd often throw the latest build onto a test server to ensure I could get a feature working there before moving
+                        too far ahead in development.</p>
+                    <h2 class="dab_heading" id="design">Design</h2>
+                        <p>This website was built with Django at its core as this is the web framework I am the most familiar with. Celery and Celery Beat
+                            were employed to queue tasks such as sending emails from the contact forms as well as run periodic tasks like pinging the database occasionally
+                            to stop the connection from timing out. Redis is pulling double duty both as a broker for Celery as well as a memory cache. The site caches the results
+                            of queries as well as information on tables and schemas to increase speed as well as reduce the risk of querying the database too much too quickly and
+                            disrupting the site's connection to it. Each piece of information stored in cache does expire on its own eventually, as one of the core principles of the
+                            site is to adapt to the database. We can't have it presenting outdated information to the users, can we? However, if I make a major update to the database and
+                            can't wait for the cache to expire on its own, don't worry; I have built a very simple and quick way for me to clear the cache.</p>
+                        <p>While Django runs the show from behind the scenes, jQuery was mainly used to relay information from the user to Django as well as re-render portions of the main
+                            page without having to reload the entire thing. The styling of the site was done in basic CSS and static files are stored in an Amazon S3 bucket.
+                            All the data presented on the site is stored in a MySQL database that lives on Amazon RDS.</p>
+                    <h2 class="dab_heading" id="pipeline">Pipeline</h2>
+                        <p>To make for easy and quick deployment, I set up Jenkins on a remote server. Whenever I pushed a new build to Github, Jenkins would install and run the new build
+                            on my site's server. Jenkins also could push my Docker image to Amazon ECS and run it on my server. Was this a necessary step
+                            for a relatively simple project that only had one person worked on? No, but I thought it'd be good practice.</p>
+                </section>
+            </article>
+            <p class="villain-instructions">Hover over the diagram below for more information!</p>
+            <section class="design-villain">
+                <div class="villain-division_local">
+                    <p class="villain-division-contents">Developed locally</p>
+                </div>
+                <div class="villain-division_github">
+                    <p class="villain-division-contents">Build pushed to Github</p>
+                </div>
+                <div class="villain-division_jenkins">
+                    <p class="villain-division-contents">Build pulled from Github</p>
+                </div>
+                <div class="villain-division_ECS">
+                    <p class="villain-division-contents">Docker image pushed to ECS</p>
+                </div>
+                <div class="villain-division_AWS">
+                    <p class="villain-division-contents">Build automatically deployed on server</p>
+                </div>
+                <div class="villain-division_empty">
+                </div>
+            </section>
+        </main>
+        <aside class="info-aside">
+            <ul class="section-nav">
+                <li class="page-nav-header">
+                    <h4>Page Nav:</h4>
+                </li>
+                <li>
+                    <a href="#overview">Overview</a>
+                </li>
+                <li>
+                    <a href="#process">Process</a>
+                </li>
+                <li>
+                    <a href="#design">Design</a>
+                </li>
+                <li>
+                    <a href="#pipeline">Pipeline</a>
+                </li>
+            </ul>
+            <h4 class="gallery-heading">Gallery:</h4>
+            <section class="info-images-column">
+                <a href="{% static 'images/figma-example.png' %}" data-fancybox="gallery" data-caption="Initial designs on Figma" class="info-image-wrapper">
+                    <img src="{% static 'images/figma-example.png' %}" class="info-image" alt="">
+                </a>
+                <a href="https://youtu.be/igSKrkI2Gyk" data-fancybox="gallery" data-caption="Video of proof of concept" class="info-image-wrapper">
+                    <img src="https://i.ytimg.com/vi/igSKrkI2Gyk/maxresdefault.jpg" class="info-image" alt="">
+                </a>
+                <a href="{% static 'images/help-function-example.png' %}" data-fancybox="gallery" data-caption="Functions to get info from MySQL DB" class="info-image-wrapper">
+                    <img src="{% static 'images/help-function-example.png' %}" class="info-image" alt="">
+                </a>
+                <a href="{% static 'images/func-view-example.png' %}" data-fancybox="gallery" data-caption="Function based views" class="info-image-wrapper">
+                    <img src="{% static 'images/func-view-example.png' %}" class="info-image" alt="">
+                </a>
+                <a href="{% static 'images/form-example.png' %}" data-fancybox="gallery" data-caption="Email form" class="info-image-wrapper">
+                    <img src="{% static 'images/form-example.png' %}" class="info-image" alt="">
+                </a>
+                <a href="{% static 'images/class-view-example.png' %}" data-fancybox="gallery" data-caption="Class based views from forms" class="info-image-wrapper">
+                    <img src="{% static 'images/class-view-example.png' %}" class="info-image" alt="">
+                </a>
+                <a href="{% static 'images/jquery-example.png' %}" data-fancybox="gallery" data-caption="jQuery to grab html data and insert into the page" class="info-image-wrapper">
+                    <img src="{% static 'images/jquery-example.png' %}" class="info-image" alt="">
+                </a>
+                <a href="{% static 'images/jenkins-example.png' %}" data-fancybox="gallery" data-caption="Snapshot of Jenkins" class="info-image-wrapper">
+                    <img src="{% static 'images/jenkins-example.png' %}" class="info-image" alt="">
+                </a>
+                <em class="credit-attr">Credit to the Fancybox plugin for added functionality.</em>
+            </section>
+        </aside>
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js"></script>
+{% endblock content %}

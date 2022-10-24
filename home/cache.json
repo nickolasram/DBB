@@ -1,0 +1,32 @@
+{
+    "example_queries": [
+        {
+            "schema": "oscarbooks",
+            "query": "SELECT * FROM (\n\tSELECT DISTINCT CONCAT(custfname,\" \",custlname) AS customer,\n\t\tSUM(stxnamount) OVER(PARTITION BY salestransactions.customerid) AS total_purchases\n\t\tFROM customers\n\t\tJOIN salestransactions\n\t\tUSING(customerid)) totalspercustomer\nWHERE total_purchases > 1000.00;\n"
+        },
+        {
+            "schema": "oscarbooks",
+            "query": "WITH expenses AS (\n\tSELECT DISTINCT productid, \n\tprdname,\n\tSUM(stxnquantity) OVER(PARTITION BY stxnitem.productid) AS qty_sold,\n\tSUM(stxnunitprice * stxnquantity) OVER(PARTITION BY stxnitem.productid) AS revenue_from_item,\n\tprddescription\n\tFROM stxnitem\n\tJOIN inventory\n\tUSING(productid)\n\tJOIN products\n\tUSING(productid)),\nsales AS (\n\tSELECT DISTINCT productid, \n\tprdname,\n\tSUM(ptxnquantity) OVER(PARTITION BY ptxnitem.productid) AS qty_bought,\n\tSUM(ptxnunitprice * ptxnquantity - ptxndiscount) OVER(PARTITION BY ptxnitem.productid) AS expense_on_item,\n\tprddescription\n\tFROM ptxnitem\n\tJOIN inventory\n\tUSING(productid)\n\tJOIN products\n\tUSING(productid))\nSELECT sales.prdname,\nexpense_on_item,\nrevenue_from_item, \nrevenue_from_item - expense_on_item AS profit_off_item,\nROUND(qty_sold / qty_bought, 2) * 100 AS percent_of_product_moved\nFROM sales\nJOIN expenses\nUSING(productid);"
+        },
+        {
+            "schema": "oscarbooks",
+            "query": "SELECT DISTINCT prdname AS product,\nSUM(stxnquantity) OVER(PARTITION BY productid) AS 'qty sold',\nSUM(stxnunitprice * stxnquantity) OVER(PARTITION BY productid) AS product_total,\nSUM(stxnunitprice * stxnquantity) OVER() AS total\nFROM stxnitem\nJOIN products\nUSING(productid);\n"
+        },
+        {
+            "schema": "oscarbooks",
+            "query": "SELECT DISTINCT venname AS vendor,\nSUM(ptxntotal) OVER(PARTITION BY vendorid) AS paid_to_vendor,\nMAX(ptxntotal) OVER(PARTITION BY vendorid) AS max_paid_to_vendor,\nROUND(AVG(ptxntotal) OVER(), 2) AS average_purchase,\nSUM(ptxntotal) OVER() AS total_purchases,\nROUND(SUM(ptxntotal) OVER(PARTITION BY vendorid) / SUM(ptxntotal) OVER(), 2) AS percentage_of_purchases\nFROM purchasetransactions\nJOIN vendors\nUSING(vendorid)\nORDER BY percentage_of_purchases DESC;"
+        },
+        {
+            "schema": "oscarbooks",
+            "query": "SELECT stxndate,\nROUND(AVG(stxnamount) OVER(), 2) AS avg_sale_by_date,\nSUM(stxnamount) OVER(PARTITION BY stxndate) AS total_sales_per_date,\nSUM(stxnamount) OVER(PARTITION BY stxndate) - ROUND(AVG(stxnamount) OVER(), 2)\n\tAS deviation_from_avg\nFROM salestransactions;"
+        },
+        {
+            "schema": "oscarbooks",
+            "query": "SELECT * FROM (\n\tSELECT DISTINCT CONCAT(custfname,\" \",custlname) AS customer,\n\t\tSUM(stxnamount) OVER(PARTITION BY salestransactions.customerid) AS total_purchases\n\t\tFROM customers\n\t\tJOIN salestransactions\n\t\tUSING(customerid)) totalspercustomer\nWHERE total_purchases > 1000.00;"
+        },
+        {
+            "schema": "musicrating",
+            "query": "SELECT songTitle AS Song, albumTitle AS Album, albumYear AS \"Release Year\", artistName AS Artist\nFROM songs\nJOIN albums\nUSING(albumID)\nLEFT JOIN artists\nON albums.artistID = artists.artistID\nWHERE albums.albumYear > 2000;"
+        }
+    ]
+}

@@ -1,0 +1,67 @@
+{% extends "main.html" %}
+{% load myfilters %}
+{% load static %}
+{% block content %}
+<main  class="main-sub-window">
+    <div class="viewer-head">
+        <div class="database-selection">
+            <form action="#" id="databaseForm">
+                <label for="Database" class="databaseLabel">Schema</label>
+                <select name="Database" id="databaseDropdown" class="databaseDropdown">
+                    {% for schema in schemas %}
+                        <option value="{{schema}}" class="databaseOption" {%if schema == "oscarbooks" %}selected{%endif%}>{{schema}}</option>
+                    {% endfor %}
+                </select>
+            </form>
+        </div> <!-- database-selection -->
+        <div class="order-selection">
+            <form action="#" id="orderForm">
+            </form>
+        </div> <!-- order-selection -->
+        <button type="button" id="wrapBtn">Toggle wrap</button>
+        <form action="#" method="GET" class="searchForm" id="searchForm">
+            <input type="text" id="searchDB" placeholder="Filter Results">
+            <button type="submit" class="searchBtn">
+                <img src="static/images/magnifying.svg" class="searchBtn-img">
+            </button>
+        </form> <!-- search bar -->
+    </div> <!-- viewer-head -->
+    <div class="viewer-filter">
+        <div class="filter"  id="placeForTableFilter">
+        </div>
+        <div class="filter joinfilter" id="placeForJoinFilter">
+        </div>
+        <div class="filter" id="placeForColumnFilter">
+        </div>
+    </div>
+    <div class="viewer-data" id="placeForResults">
+    </div>
+</main>
+<div id="filter-buttons">
+    <button id="expandTableBtn" class="filter-button nonbarbtn" data-filter="table"><span class="expandStatus" data-filter="table">Expand</span> Table list</button>
+    <button id="expandJoinsBtn" class="filter-button nonbarbtn" data-filter="join"><span class="expandStatus" data-filter="join">Expand</span> Join list</button>
+    <button id="expandColumnsBtn" class="filter-button nonbarbtn" data-filter="column"><span class="expandStatus" data-filter="column">Expand</span> Column list</button>
+</div>
+<aside>
+    <p>Run your own query or</p>
+    <form action="#" method="GET" id="queryForm">
+        {% csrf_token %}
+        <label for="exampleQueries" class="exampleQueryLabel">Example Query dropdown menu</label>
+        <select name="exampleQueries" id="exampleQueries" class="exampleQueries">
+            <option selected value="" class="exampleQueryOption">run one of my example queries!</option>
+            {% for example in examples %}
+                <option value="{{example.query}}" data-eSchema="{{example.schema}}" class="exampleQueryOption">{{example.query|truncatechars_html:26}}</option>
+            {% endfor %}
+        </select>
+        <select name="Database" id="queryDatabaseDropdown" class="databaseDropdown">
+            {% for schema in schemas %}
+                <option value="{{schema}}" data-fSchema="{{schema}}" class="qDatabaseOption" {%if schema == 'oscarbooks' %}selected{%endif%}>USE {{schema}};</option>
+            {% endfor %}
+        </select>
+        <textarea name="queryArea" id="queryArea" cols="40" rows="20" placeholder="(Use MySQL syntax)"></textarea>
+        <input type="submit" value="Go!" id="queryBtn" class="nonbarbtn">
+    </form>
+</aside>
+
+<script src='{% static "js/functions.js" %}'></script>
+{% endblock content %}

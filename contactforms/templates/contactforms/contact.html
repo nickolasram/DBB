@@ -1,0 +1,36 @@
+{% extends "main.html" %}
+{% block content %}
+<main class="form">
+    <form action="{% url 'contact' %}" method="post">
+        {% csrf_token %}
+        <section class="form_input-column">
+            <section class="form_text-input">
+                {{ form.fname.label_tag }}
+                {{ form.fname }}
+            </section>
+            <section class="form_text-input">
+                {{ form.lname.label_tag }}
+                {{ form.lname }}
+            </section>
+            <section class="form_text-input">
+                {{ form.company.label_tag }}
+                {{ form.company }}
+            </section>
+            <section class="form_text-input">
+                {{ form.email.label_tag }}
+                {{ form.email }}
+            </section>
+        </section>
+        <section class="form_input-column">
+            <section class="form_text-input">
+                {{ form.body.label_tag }}
+                {{ form.body }}
+            </section>
+            <button type="submit" value="Send" class="form_submit">Send</button>
+        </section>
+    </form>
+</main>
+<aside class="form-aside">
+    Thank you for reaching out!
+</aside>
+{% endblock content %}

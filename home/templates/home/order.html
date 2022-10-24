@@ -1,0 +1,7 @@
+<label for="Order" class="orderLabel">Order by</label>
+<select name="Order" id="orderDropdown">
+    {% for column in columns%}
+        <option value="{{column}}" class="orderOption">{{column|truncatechars_html:12}}</option>
+    {% endfor %}
+</select>
+<button type="button" id="orderBtn" data-order="ASC">ASC</button>

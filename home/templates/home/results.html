@@ -1,0 +1,25 @@
+{% load myfilters %}
+
+{% if state == 'user error'%}
+    <div>
+        <p class="query-error"> Invalid Query. Please review your syntax or perhaps you don't have user permissions to run such a query. </p>
+        <p class="query-error">Permissions for website users are limited to SELECT and SHOW DATABASES.</p>
+    </div>
+{% else %}
+    <div>
+        <table class="data-table" onload="toggleWrap()">
+            <tr>
+                {% for heading in results.0 %}
+                <th>{{heading}}</th>
+                {% endfor %}
+            </tr>
+            {% for result in results %}
+            <tr>
+                {% for value in result|onlyvalues%}
+                <td class="data-cell unwrappedcell">{{value}}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endif %}

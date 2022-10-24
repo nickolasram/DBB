@@ -1,0 +1,14 @@
+services:
+  redis:
+    image: redis
+    container_name: redis
+    command:
+      - /bin/sh
+      - -c
+      - redis-server --requirepass "$${REDIS_PW:?REDIS_PW variable is not set}"
+    command: celery -A core worker -l INFO
+    ports:
+      - "6379:6379"
+    env_file: /etc/profile.d/dbbenvvar.sh
+  nginx:
+    image: nginx

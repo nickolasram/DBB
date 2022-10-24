@@ -1,0 +1,11 @@
+<p class="filter-heading">Displayed Columns:</p>
+<div class="filterList" data-filter="column">
+    {% for column in columns %}
+    <section class="filter-option">
+        <input type="checkbox" id="{{column}}" name="{{column}}" value="{{column}}" class="columnOption" checked>
+        <label for="{{column}}">{{column|truncatechars_html:12}}</label>
+    </section>
+    {% endfor %}
+</div>
+<p class="data-filter" data-filter="column">[collapsed]</p>
+<button type="button" id="testColumnBtn" class="nonbarbtn">Select Columns</button>

@@ -1,0 +1,4 @@
+dbbdevenv/
+dbb/celerybeat-schedule.bak
+dbb/celerybeat-schedule.dat
+dbb/celerybeat-schedule.dir
