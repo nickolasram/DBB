@@ -82,29 +82,8 @@ WSGI_APPLICATION = 'dbb.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.mysql',
-    #     'NAME': 'dataexamples',
-    #     'USER': 'root',
-    #     'PASSWORD': 'puert0vallartamexic0!',
-    #     'HOST': '127.0.0.1',
-    #     'PORT': '3306',
-    # },
-    # 'default': {
-            # 'ENGINE': 'django.db.backends.mysql',
-            # 'NAME': 'musicrating',
-            # 'USER': 'root',
-            # 'PASSWORD': 'puert0vallartamexic0!',
-            # 'HOST': '127.0.0.1',
-            # 'PORT': '3306',
-        # },
+
 }
 
 # Password validation
@@ -146,10 +125,6 @@ MEDIA_URL = '/images/'
 
 STATICFILES_DIRS = ( os.path.join('static'), )
 
-# STATICFILES_DIRS = [
-#     BASE_DIR / 'static'
-# ]
-#
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
